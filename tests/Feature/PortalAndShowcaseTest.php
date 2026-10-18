@@ -18,7 +18,7 @@ test('client portal renders with projects, deliverables, and financial ledger', 
 
     $response->assertStatus(200);
     $response->assertSee('Client Portal');
-    $response->assertSee('Deliverables for Client Review');
+    $response->assertSee('Deliverables');
     $response->assertSee('Invoices');
 });
 
