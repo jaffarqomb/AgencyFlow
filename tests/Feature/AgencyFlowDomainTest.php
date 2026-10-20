@@ -9,6 +9,8 @@ use App\Models\Payment;
 use App\Models\Project;
 use App\Models\ProjectExtension;
 use App\Models\ProjectStage;
+use App\Models\Service;
+use App\Models\ServiceCategory;
 use App\Models\Task;
 use App\Models\Timesheet;
 use App\Models\User;
@@ -96,6 +98,49 @@ test('timesheet automatically calculates labor cost from employee hourly rate', 
     ]);
 
     expect((float) $timesheet->labor_cost)->toEqual(400.00); // 5.0 hours * $80/hr
+});
+
+test('project expected profit is calculated from its budget and selected service costs', function () {
+    $category = ServiceCategory::create([
+        'name' => 'Creative Services',
+        'slug' => 'creative-services',
+        'sort_order' => 1,
+    ]);
+
+    $brandStrategy = Service::create([
+        'category_id' => $category->id,
+        'name' => 'Brand Strategy',
+        'slug' => 'brand-strategy',
+        'estimated_cost' => 4500,
+    ]);
+
+    $packaging = Service::create([
+        'category_id' => $category->id,
+        'name' => 'Packaging Design',
+        'slug' => 'packaging-design',
+        'estimated_cost' => 6500,
+    ]);
+
+    $this->project->services()->sync([$brandStrategy->id, $packaging->id]);
+
+    expect(Project::calculateExpectedProfitForServices(
+        $this->project->budget,
+        $this->project->services()->pluck('services.id')->all(),
+    ))->toBe(39000.0);
+});
+
+test('project health score decreases for overdue and blocked work', function () {
+    $healthyScore = $this->project->calculateHealthScore();
+
+    $this->task->update([
+        'status' => 'blocked',
+        'due_date' => now()->subDay()->toDateString(),
+    ]);
+    $this->stage->update([
+        'due_date' => now()->subDay()->toDateString(),
+    ]);
+
+    expect($this->project->calculateHealthScore())->toBeLessThan($healthyScore);
 });
 
 test('project financial calculations accurately aggregate costs and profit margins', function () {

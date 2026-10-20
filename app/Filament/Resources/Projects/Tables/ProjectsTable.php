@@ -21,25 +21,28 @@ class ProjectsTable
         return $table
             ->columns([
                 TextColumn::make('project_code')
+                    ->label('Project Code')
                     ->badge()
                     ->color('gray')
                     ->searchable()
                     ->sortable(),
                 TextColumn::make('project_name')
+                    ->label('Project Name')
                     ->weight('bold')
                     ->searchable()
                     ->sortable(),
                 TextColumn::make('client.company_name')
-                    ->label('Client')
+                    ->label('Client or Company Name')
                     ->searchable()
                     ->sortable(),
                 TextColumn::make('projectManager.name')
-                    ->label('PM')
+                    ->label('Project Manager')
                     ->toggleable(),
                 TextColumn::make('budget')
                     ->money('USD')
                     ->sortable(),
                 TextColumn::make('status')
+                    ->label('Status')
                     ->badge()
                     ->color(fn (string $state): string => match ($state) {
                         'active' => 'success',

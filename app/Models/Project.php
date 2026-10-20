@@ -124,6 +124,20 @@ class Project extends Model
         return (float) $this->expenses()->where('status', 'approved')->sum('amount');
     }
 
+    /**
+     * Calculate expected profit from the project budget and selected service costs.
+     *
+     * @param  array<int, int|string>  $serviceIds
+     */
+    public static function calculateExpectedProfitForServices(float|int|string $budget, array $serviceIds): float
+    {
+        $serviceCost = Service::query()
+            ->whereKey($serviceIds)
+            ->sum('estimated_cost');
+
+        return round((float) $budget - (float) $serviceCost, 2);
+    }
+
     public function calculateTotalCost(): float
     {
         return $this->calculateLaborCost() + $this->calculateOvertimeCost() + $this->calculateDirectExpenses();
@@ -156,5 +170,97 @@ class Project extends Model
         }
 
         return round(($this->calculateGrossProfit() / $base) * 100, 2);
+    }
+
+    public function calculateHealthScore(): float
+    {
+        $totalTasks = $this->tasks()->count();
+        $completedTasks = $this->tasks()->whereIn('status', ['completed', 'done'])->count();
+        $overdueTasks = $this->tasks()
+            ->whereNotIn('status', ['completed', 'done'])
+            ->whereNotNull('due_date')
+            ->whereDate('due_date', '<', now()->toDateString())
+            ->count();
+        $scheduleScore = $totalTasks === 0
+            ? 100
+            : max(0, (($completedTasks / $totalTasks) * 100) - (($overdueTasks / $totalTasks) * 30));
+
+        $budget = (float) $this->budget;
+        $budgetUsage = $budget > 0 ? ($this->calculateTotalCost() / $budget) * 100 : 0;
+        $budgetScore = $budget <= 0 ? 100 : max(0, 100 - max(0, $budgetUsage - 80) * 5);
+
+        $outstandingRisks = $this->riskPredictions()
+            ->where(function ($query): void {
+                $query->whereIn('risk_level', ['high', 'critical'])
+                    ->orWhere('probability_score', '>=', 60);
+            })
+            ->count();
+        $riskScore = max(0, 100 - ($outstandingRisks * 20));
+
+        $totalStages = $this->stages()->count();
+        $delayedStages = $this->stages()
+            ->whereNotIn('status', ['completed', 'done'])
+            ->whereNotNull('due_date')
+            ->whereDate('due_date', '<', now()->toDateString())
+            ->count();
+        $stageScore = $totalStages === 0
+            ? 100
+            : max(0, 100 - (($delayedStages / $totalStages) * 100));
+
+        $approvalCounts = ClientApproval::query()
+            ->whereHas('deliverable', fn ($query) => $query->where('project_id', $this->id))
+            ->selectRaw("sum(case when decision in ('approved', 'accepted') then 1 else 0 end) as positive")
+            ->selectRaw("sum(case when decision in ('rejected', 'changes_requested') then 1 else 0 end) as negative")
+            ->first();
+        $positiveApprovals = (int) ($approvalCounts?->positive ?? 0);
+        $negativeApprovals = (int) ($approvalCounts?->negative ?? 0);
+        $decidedApprovals = $positiveApprovals + $negativeApprovals;
+        $satisfactionScore = $decidedApprovals === 0
+            ? 75
+            : ($positiveApprovals / $decidedApprovals) * 100;
+
+        $activeTasks = $this->tasks()->whereNotIn('status', ['completed', 'done'])->count();
+        $assignedEmployees = $this->tasks()
+            ->whereNotIn('status', ['completed', 'done'])
+            ->whereNotNull('assigned_to')
+            ->distinct('assigned_to')
+            ->count('assigned_to');
+        $averageActiveTasks = $assignedEmployees > 0 ? $activeTasks / $assignedEmployees : 0;
+        $workloadScore = max(0, 100 - max(0, $averageActiveTasks - 2) * 16.67);
+
+        $blockedTasks = $this->tasks()->where('status', 'blocked')->count();
+        $rejectedApprovals = $negativeApprovals;
+        $openIssuesScore = max(0, 100 - (($blockedTasks * 25) + ($rejectedApprovals * 15)));
+
+        return round(
+            ($scheduleScore * 0.20)
+            + ($budgetScore * 0.20)
+            + ($riskScore * 0.15)
+            + ($stageScore * 0.15)
+            + ($satisfactionScore * 0.15)
+            + ($workloadScore * 0.10)
+            + ($openIssuesScore * 0.05),
+            2,
+        );
+    }
+
+    public function recalculateHealthScore(): void
+    {
+        $this->updateQuietly([
+            'health_score' => $this->calculateHealthScore(),
+        ]);
+    }
+
+    protected static function booted(): void
+    {
+        static::creating(function (Project $project) {
+            if (empty($project->project_code)) {
+                $latestId = self::max('id') ?? 0;
+                $nextId = $latestId + 1;
+
+                // Example format: QUT-2026-0001
+                $project->project_code = 'PRJ-'.date('Y').'-'.str_pad($nextId, 4, '0', STR_PAD_LEFT);
+            }
+        });
     }
 }
