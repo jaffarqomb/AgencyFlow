@@ -8,6 +8,7 @@ use App\Models\Client;
 use App\Models\ClientApproval;
 use App\Models\Deliverable;
 use App\Models\DeliverableVersion;
+use App\Models\Department;
 use App\Models\Employee;
 use App\Models\Expense;
 use App\Models\Invoice;
@@ -180,15 +181,35 @@ class DatabaseSeeder extends Seeder
             ]);
         }
 
-        // 4. Employees
+        $departmentsData = [
+            'Brand Strategy' => 'Brand positioning, research, and strategic direction',
+            'Creative Design' => 'Visual identity, packaging, and editorial design',
+            'Operations & Delivery' => 'Project delivery, operations, and client success',
+            'Finance & Administration' => 'Financial operations, reporting, and administration',
+            'Production' => 'Content production, animation, and 3D visualization',
+        ];
+
+        $createdDepartments = [];
+        foreach ($departmentsData as $departmentName => $description) {
+            $createdDepartments[$departmentName] = Department::updateOrCreate(
+                ['slug' => Str::slug($departmentName)],
+                [
+                    'name' => $departmentName,
+                    'description' => $description,
+                    'is_active' => true,
+                ],
+            );
+        }
+
+        // 5. Employees
         $designerEmployee = Employee::updateOrCreate(['email' => $designerUser->email], [
             'user_id' => $designerUser->id,
             'team_id' => $createdTeams['Branding Team']->id,
+            'department_id' => $createdDepartments['Creative Design']->id,
             'employee_id' => 'EMP-001',
             'full_name' => $designerUser->name,
             'mobile' => $designerUser->phone,
             'designation' => 'Lead Brand Identity Designer',
-            'department' => 'Creative Design',
             'hourly_rate' => 85.00,
             'overtime_rate' => 127.50,
             'joining_date' => now()->subMonths(18),
@@ -198,11 +219,11 @@ class DatabaseSeeder extends Seeder
         $pmEmployee = Employee::updateOrCreate(['email' => $pmUser->email], [
             'user_id' => $pmUser->id,
             'team_id' => $createdTeams['Strategy Team']->id,
+            'department_id' => $createdDepartments['Operations & Delivery']->id,
             'employee_id' => 'EMP-002',
             'full_name' => $pmUser->name,
             'mobile' => $pmUser->phone,
             'designation' => 'Senior Project Director',
-            'department' => 'Operations & Delivery',
             'hourly_rate' => 95.00,
             'overtime_rate' => 142.50,
             'joining_date' => now()->subMonths(24),

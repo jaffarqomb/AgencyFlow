@@ -9,6 +9,14 @@ test('login screen can be rendered', function () {
     $response->assertOk();
 });
 
+test('guests are sent to the Livewire login screen when opening the Filament dashboard', function () {
+    $response = $this->get('/admin');
+
+    $response
+        ->assertRedirect(route('login'))
+        ->assertSessionHas('url.intended', route('filament.admin.pages.dashboard'));
+});
+
 test('users can authenticate using the login screen', function () {
     $user = User::factory()->create();
 
@@ -19,7 +27,7 @@ test('users can authenticate using the login screen', function () {
 
     $response
         ->assertSessionHasNoErrors()
-        ->assertRedirect(route('dashboard', absolute: false));
+        ->assertRedirect('/admin');
 
     $this->assertAuthenticated();
 });

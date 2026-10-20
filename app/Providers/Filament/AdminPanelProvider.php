@@ -5,7 +5,7 @@ namespace App\Providers\Filament;
 use App\Filament\Widgets\AgencyStatsOverviewWidget;
 use App\Filament\Widgets\ProfitabilityChartWidget;
 use App\Filament\Widgets\ProjectHealthWidget;
-use Filament\Http\Middleware\Authenticate;
+use App\Http\Middleware\RedirectUnauthenticatedToLogin;
 use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
@@ -29,7 +29,6 @@ class AdminPanelProvider extends PanelProvider
             ->id('admin')
             ->path('admin')
             ->brandName('AgencyFlow AI ERP')
-            ->login()
             ->colors([
                 'primary' => Color::Amber,
                 'gray' => Color::Zinc,
@@ -57,7 +56,7 @@ class AdminPanelProvider extends PanelProvider
                 DispatchServingFilamentEvent::class,
             ])
             ->authMiddleware([
-                Authenticate::class,
+                RedirectUnauthenticatedToLogin::class,
             ]);
     }
 }

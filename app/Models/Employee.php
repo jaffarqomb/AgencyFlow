@@ -14,12 +14,12 @@ class Employee extends Model
     protected $fillable = [
         'user_id',
         'team_id',
+        'department_id',
         'employee_id',
         'full_name',
         'email',
         'mobile',
         'designation',
-        'department',
         'hourly_rate',
         'overtime_rate',
         'joining_date',
@@ -43,6 +43,11 @@ class Employee extends Model
     public function team(): BelongsTo
     {
         return $this->belongsTo(Team::class);
+    }
+
+    public function department(): BelongsTo
+    {
+        return $this->belongsTo(Department::class);
     }
 
     public function tasks(): HasMany

@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Client;
+use App\Models\Department;
 use App\Models\Employee;
 use App\Models\Invoice;
 use App\Models\InvoiceItem;
@@ -35,13 +36,19 @@ beforeEach(function () {
         'status' => 'active',
     ]);
 
+    $this->department = Department::create([
+        'name' => 'Creative',
+        'slug' => 'creative',
+        'is_active' => true,
+    ]);
+
     $this->employee = Employee::create([
         'user_id' => $this->employeeUser->id,
+        'department_id' => $this->department->id,
         'employee_id' => 'EMP-TEST-001',
         'full_name' => 'David Vance',
         'email' => 'david.vance@agencyflow.test',
         'designation' => 'Senior Visual Designer',
-        'department' => 'Creative',
         'hourly_rate' => 80.00,
         'overtime_rate' => 120.00,
         'status' => 'active',

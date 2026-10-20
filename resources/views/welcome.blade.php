@@ -1,257 +1,351 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="dark">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>AgencyFlow AI ERP — Haute Creative Agency & Enterprise Intelligence</title>
-    <meta name="description" content="Next-generation Creative Agency Management and Enterprise ERP uniting brand strategy, packaging, 3D visualization, and multi-model AI forecasting.">
+    <title>AgencyFlow — Delivery, without the drag</title>
+    <meta name="description"
+        content="AgencyFlow gives modern agencies one calm, connected workspace for projects, clients, finances, and delivery intelligence.">
 
     <link rel="preconnect" href="https://fonts.bunny.net">
-    <link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600,700|syne:700,800" rel="stylesheet" />
+    <link href="https://fonts.bunny.net/css?family=dm-sans:400,500,600,700|space-grotesk:500,600,700" rel="stylesheet">
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
 
     <style>
         :root {
-            --font-sans: 'Instrument Sans', sans-serif;
-            --font-heading: 'Syne', sans-serif;
+            --ink: #102a43;
+            --muted: #627d98;
+            --paper: #f8fbfd;
+            --mint: #c9f7e6;
+            --blue: #3f7cff;
+            --violet: #8b6cff;
         }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
-            font-family: var(--font-sans);
-            background-color: #08080a;
-            color: #ececec;
-            overflow-x: hidden;
+            font-family: 'DM Sans', sans-serif;
+            color: var(--ink);
+            background: var(--paper);
         }
-        .font-heading {
-            font-family: var(--font-heading);
+
+        .font-display {
+            font-family: 'Space Grotesk', sans-serif;
         }
-        .glow-radial {
-            background: radial-gradient(circle at 50% 0%, rgba(245, 158, 11, 0.12) 0%, rgba(20, 20, 25, 0) 70%);
+
+        .hero-wash {
+            background: radial-gradient(circle at 50% 0%, #ddf8ee 0, #f8fbfd 44%, #f8fbfd 100%);
         }
-        .glass-panel {
-            background: rgba(18, 18, 22, 0.65);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.07);
+
+        .dot-grid {
+            background-image: radial-gradient(#b8d1d2 1px, transparent 1px);
+            background-size: 18px 18px;
+            mask-image: linear-gradient(to bottom, black, transparent);
         }
-        .glass-panel:hover {
-            border-color: rgba(245, 158, 11, 0.35);
+
+        .browser-shadow {
+            box-shadow: 0 35px 90px rgba(54, 91, 113, .18), 0 12px 24px rgba(54, 91, 113, .08);
         }
-        .gold-gradient-text {
-            background: linear-gradient(135deg, #FFF6E5 0%, #F59E0B 50%, #D97706 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+
+        .soft-shadow {
+            box-shadow: 0 18px 45px rgba(54, 91, 113, .10);
+        }
+
+        .pill-gradient {
+            background: linear-gradient(100deg, #effff8, #eef4ff);
+        }
+
+        .marquee {
+            animation: marquee 24s linear infinite;
+        }
+
+        @keyframes marquee {
+            to {
+                transform: translateX(-50%);
+            }
         }
     </style>
-    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 </head>
-<body class="selection:bg-amber-500 selection:text-black">
 
-    <!-- Top Glow Background -->
-    <div class="absolute inset-0 top-0 h-[800px] glow-radial pointer-events-none -z-10"></div>
-
-    <!-- Navigation Header -->
-    <header class="sticky top-0 z-50 glass-panel border-b border-white/5 py-4 px-6 md:px-12 transition-all">
-        <div class="max-w-7xl mx-auto flex items-center justify-between">
-            <a href="/" class="flex items-center gap-3 group">
-                <span class="w-3.5 h-3.5 rounded-full bg-amber-500 animate-pulse shadow-[0_0_12px_#f59e0b]"></span>
-                <span class="font-heading font-extrabold text-xl tracking-tight text-white group-hover:text-amber-400 transition-colors">
-                    AGENCYFLOW <span class="text-xs px-2 py-0.5 rounded-full bg-amber-500/10 text-amber-400 border border-amber-500/30 tracking-widest font-sans uppercase">AI ERP</span>
-                </span>
+<body class="overflow-x-hidden">
+    <header class="relative z-20 border-b border-[#dbe9e9]/70 bg-[#f8fbfd]/85 backdrop-blur-md">
+        <div class="mx-auto flex max-w-7xl items-center justify-between px-6 py-5 lg:px-10">
+            <a href="/" class="flex items-center gap-2.5" aria-label="AgencyFlow home">
+                <span
+                    class="grid size-8 place-items-center rounded-[10px] bg-[#102a43] text-sm font-bold text-white">A</span>
+                <span class="font-display text-[19px] font-bold tracking-[-.04em]">agencyflow</span>
             </a>
 
-            <nav class="hidden md:flex items-center gap-8 text-sm font-medium text-neutral-300">
-                <a href="#services" class="hover:text-amber-400 transition-colors">Services</a>
-                <a href="#pillars" class="hover:text-amber-400 transition-colors">4 Pillars</a>
-                <a href="#works" class="hover:text-amber-400 transition-colors">Selected Works</a>
-                <a href="#ai-estimator" class="hover:text-amber-400 transition-colors">AI Estimator</a>
+            <nav class="hidden items-center gap-8 text-sm font-medium text-[#486581] lg:flex"
+                aria-label="Primary navigation">
+                <a class="transition hover:text-[#102a43]" href="#platform">Platform</a>
+                <a class="transition hover:text-[#102a43]" href="#solutions">Solutions</a>
+                <a class="transition hover:text-[#102a43]" href="#stories">Customer stories</a>
+                <a class="transition hover:text-[#102a43]" href="#pricing">Pricing</a>
             </nav>
 
-            <div class="flex items-center gap-4">
-                <a href="/portal" class="text-xs uppercase tracking-wider font-semibold px-4 py-2 rounded-lg bg-neutral-900 border border-white/10 hover:border-amber-500/50 hover:text-amber-300 transition-all">
-                    Client Portal
-                </a>
-                <a href="/admin" class="text-xs uppercase tracking-wider font-semibold px-4 py-2 rounded-lg bg-amber-500 text-black hover:bg-amber-400 shadow-[0_0_20px_rgba(245,158,11,0.25)] transition-all">
-                    ERP Admin &rarr;
-                </a>
+            <div class="flex items-center gap-3">
+                <a href="/admin"
+                    class="hidden px-3 py-2 text-sm font-semibold text-[#486581] transition hover:text-[#102a43] sm:inline-flex">Log
+                    in</a>
+                <a href="#demo"
+                    class="rounded-full bg-[#102a43] px-5 py-2.5 text-sm font-semibold text-white transition hover:-translate-y-0.5 hover:bg-[#1c405e]">Book
+                    a demo <span aria-hidden="true">↗</span></a>
             </div>
         </div>
     </header>
 
-    <!-- Hero Section -->
-    <section class="max-w-7xl mx-auto px-6 md:px-12 pt-24 pb-20 text-center relative">
-        <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/5 border border-white/10 text-xs text-amber-300 font-medium tracking-widest uppercase mb-8">
-            <span class="w-1.5 h-1.5 rounded-full bg-amber-400"></span>
-            Haute Brand Creation &bull; Autonomous ERP Operations
-        </div>
-
-        <h1 class="font-heading text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-black tracking-tight leading-[1.05] uppercase max-w-5xl mx-auto mb-8">
-            Crafting <span class="gold-gradient-text">Iconic Brands</span> with Machine Precision.
-        </h1>
-
-        <p class="text-lg md:text-xl text-neutral-400 max-w-3xl mx-auto leading-relaxed mb-12">
-            A creative agency designed for modern market leaders. We fuse bespoke brand identity, packaging dielines, and photorealistic 3D visualization with an autonomous, predictive AI operating system.
-        </p>
-
-        <div class="flex flex-wrap items-center justify-center gap-4">
-            <a href="/admin" class="px-8 py-4 rounded-xl bg-amber-500 hover:bg-amber-400 text-black font-semibold text-sm tracking-wider uppercase transition-all shadow-lg shadow-amber-500/20">
-                Explore Enterprise ERP
-            </a>
-            <a href="/portal" class="px-8 py-4 rounded-xl glass-panel hover:bg-white/10 text-white font-semibold text-sm tracking-wider uppercase transition-all">
-                Access Client Portal
-            </a>
-        </div>
-
-        <!-- 4-Pillar Ribbon -->
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-5xl mx-auto mt-24">
-            <div class="glass-panel p-6 rounded-2xl text-left border-l-2 border-l-amber-500">
-                <span class="text-xs font-mono text-amber-400 font-semibold">01 / DISCOVERY</span>
-                <h3 class="font-heading text-xl font-bold text-white mt-1">IDENTIFY</h3>
-                <p class="text-xs text-neutral-400 mt-2">Brand Strategy, Competitive Positioning, and Linguistic Naming Systems.</p>
-            </div>
-            <div class="glass-panel p-6 rounded-2xl text-left border-l-2 border-l-amber-500">
-                <span class="text-xs font-mono text-amber-400 font-semibold">02 / CRAFT</span>
-                <h3 class="font-heading text-xl font-bold text-white mt-1">CREATE</h3>
-                <p class="text-xs text-neutral-400 mt-2">Visual Identity, Tactile Packaging Dielines, Editorial & Design Systems.</p>
-            </div>
-            <div class="glass-panel p-6 rounded-2xl text-left border-l-2 border-l-amber-500">
-                <span class="text-xs font-mono text-amber-400 font-semibold">03 / ACTIVATION</span>
-                <h3 class="font-heading text-xl font-bold text-white mt-1">COMMUNICATE</h3>
-                <p class="text-xs text-neutral-400 mt-2">Worldwide Launch Campaigns, Motion Animation, and Photorealistic 3D CGI.</p>
-            </div>
-            <div class="glass-panel p-6 rounded-2xl text-left border-l-2 border-l-amber-500">
-                <span class="text-xs font-mono text-amber-400 font-semibold">04 / GROWTH</span>
-                <h3 class="font-heading text-xl font-bold text-white mt-1">CAPTURE</h3>
-                <p class="text-xs text-neutral-400 mt-2">Community Governance, Analytics Auditing, and Brand Cultivation.</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- Selected Works Showcase -->
-    <section id="works" class="max-w-7xl mx-auto px-6 md:px-12 py-20 border-t border-white/5">
-        <div class="flex flex-col md:flex-row md:items-end justify-between mb-12">
-            <div>
-                <span class="text-xs uppercase tracking-widest text-amber-400 font-mono">Portfolio</span>
-                <h2 class="font-heading text-3xl md:text-5xl font-black text-white mt-2">SELECTED COMMISSIONS</h2>
-            </div>
-            <p class="text-neutral-400 text-sm max-w-md mt-4 md:mt-0">
-                Managed from brief to invoice through AgencyFlow's stage governance engine.
-            </p>
-        </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <!-- Work 1 -->
-            <div class="group glass-panel rounded-3xl overflow-hidden relative">
-                <div class="h-80 overflow-hidden bg-neutral-950">
-                    <img src="https://images.unsplash.com/photo-1617814076367-b759c7d7e738?auto=format&fit=crop&w=1200&q=80" alt="Horizon EV" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 opacity-80 group-hover:opacity-100">
+    <main>
+        <section class="hero-wash relative overflow-hidden">
+            <div class="dot-grid pointer-events-none absolute inset-x-0 top-0 h-72 opacity-70"></div>
+            <div class="relative mx-auto max-w-7xl px-6 pb-20 pt-20 text-center lg:px-10 lg:pb-28 lg:pt-28">
+                <div
+                    class="mx-auto mb-8 inline-flex items-center gap-2 rounded-full border border-[#bde5db] bg-white/75 px-4 py-2 text-xs font-semibold uppercase tracking-[.16em] text-[#287b70]">
+                    <span class="size-2 rounded-full bg-[#35bd9a]"></span>
+                    The calm operating system for agencies
                 </div>
-                <div class="p-8">
-                    <div class="flex items-center justify-between text-xs font-mono text-amber-400 uppercase tracking-wider mb-2">
-                        <span>Horizon Luxury EV</span>
-                        <span>$95,000 Budget &bull; 94.5% Health</span>
+                <h1
+                    class="font-display mx-auto max-w-5xl text-5xl font-semibold leading-[1.02] tracking-[-.065em] text-[#102a43] sm:text-7xl lg:text-[88px]">
+                    Make delivery your <span class="text-[#3f7cff]">competitive edge.</span>
+                </h1>
+                <p class="mx-auto mt-7 max-w-2xl text-lg leading-8 text-[#627d98] sm:text-xl">
+                    AgencyFlow brings your projects, people, clients, and cash flow into one clear view — so great work
+                    moves forward without the busywork.
+                </p>
+                <div class="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row">
+                    <a href="#demo"
+                        class="w-full rounded-full bg-[#3f7cff] px-7 py-3.5 text-sm font-bold text-white shadow-lg shadow-blue-200 transition hover:-translate-y-0.5 hover:bg-[#3169df] sm:w-auto">See
+                        AgencyFlow in action <span aria-hidden="true">↗</span></a>
+                    <a href="#platform"
+                        class="w-full rounded-full border border-[#c8d9e5] bg-white/70 px-7 py-3.5 text-sm font-bold text-[#102a43] transition hover:border-[#9db8ca] sm:w-auto">Explore
+                        the platform <span aria-hidden="true">↓</span></a>
+                </div>
+                <p class="mt-5 text-xs font-medium text-[#829ab1]">No credit card required · Built for ambitious teams
+                </p>
+            </div>
+
+            <div id="platform" class="relative mx-auto max-w-6xl px-5 lg:px-10">
+                <div class="browser-shadow overflow-hidden rounded-t-2xl border border-[#cfe1e3] bg-white">
+                    <div class="flex items-center justify-between border-b border-[#e5eeee] px-5 py-4">
+                        <div class="flex items-center gap-2">
+                            <span class="size-2.5 rounded-full bg-[#ff8d8d]"></span><span
+                                class="size-2.5 rounded-full bg-[#ffd66e]"></span><span
+                                class="size-2.5 rounded-full bg-[#69d6b0]"></span>
+                            <span
+                                class="ml-4 hidden rounded-md bg-[#f3f7f8] px-3 py-1 text-[10px] text-[#829ab1] sm:inline">app.agencyflow.io
+                                / overview</span>
+                        </div>
+                        <span class="rounded-full bg-[#e6faf2] px-3 py-1 text-[10px] font-bold text-[#25826e]">All
+                            systems healthy</span>
                     </div>
-                    <h3 class="font-heading text-2xl font-bold text-white group-hover:text-amber-300 transition-colors">Global Electric Brand Identity & Launch Architecture</h3>
-                    <p class="text-sm text-neutral-400 mt-2">Comprehensive identity deck, custom aerodynamic typography, bespoke front grille emblem, and photorealistic launch film.</p>
-                </div>
-            </div>
-
-            <!-- Work 2 -->
-            <div class="group glass-panel rounded-3xl overflow-hidden relative">
-                <div class="h-80 overflow-hidden bg-neutral-950">
-                    <img src="https://images.unsplash.com/photo-1527061011665-3652c757a4d4?auto=format&fit=crop&w=1200&q=80" alt="Aethelgard Spirits" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 opacity-80 group-hover:opacity-100">
-                </div>
-                <div class="p-8">
-                    <div class="flex items-center justify-between text-xs font-mono text-amber-400 uppercase tracking-wider mb-2">
-                        <span>Aethelgard Botanical Spirits</span>
-                        <span>$48,000 Budget &bull; 98.0% Health</span>
+                    <div class="grid min-h-[360px] grid-cols-[160px_1fr] text-left sm:grid-cols-[205px_1fr]">
+                        <aside class="hidden border-r border-[#edf2f3] bg-[#fbfdfd] p-5 sm:block">
+                            <div class="mb-8 flex items-center gap-2 text-xs font-bold"><span
+                                    class="grid size-6 place-items-center rounded-md bg-[#102a43] text-[9px] text-white">A</span>
+                                AgencyFlow</div>
+                            <div class="space-y-1 text-xs font-semibold text-[#829ab1]">
+                                <div class="rounded-lg bg-[#eaf0ff] px-3 py-2.5 text-[#3f7cff]">Overview</div>
+                                <div class="px-3 py-2.5">Projects</div>
+                                <div class="px-3 py-2.5">Clients</div>
+                                <div class="px-3 py-2.5">Time & budgets</div>
+                            </div>
+                            <div
+                                class="mt-16 border-t border-[#edf2f3] pt-4 text-[10px] font-bold uppercase tracking-wider text-[#a0b3c2]">
+                                Workspace</div>
+                            <div class="mt-3 px-3 text-xs font-semibold text-[#829ab1]">Settings</div>
+                        </aside>
+                        <div class="bg-white p-5 sm:p-8">
+                            <div class="flex flex-wrap items-start justify-between gap-3">
+                                <div>
+                                    <p class="text-xs font-medium text-[#829ab1]">Monday, 19 October 2026</p>
+                                    <h2 class="font-display mt-1 text-2xl font-semibold tracking-tight">Good morning,
+                                        Jaffar <span aria-hidden="true">✦</span></h2>
+                                </div>
+                                <button class="rounded-lg bg-[#3f7cff] px-3 py-2 text-[11px] font-bold text-white">+ New
+                                    project</button>
+                            </div>
+                            <div class="mt-7 grid gap-3 sm:grid-cols-3">
+                                <div class="rounded-xl border border-[#e8f0f1] p-4">
+                                    <p class="text-[10px] font-bold uppercase tracking-wider text-[#829ab1]">Active
+                                        projects</p>
+                                    <p class="font-display mt-2 text-3xl font-semibold">24</p>
+                                    <p class="mt-1 text-[10px] font-semibold text-[#2eaa84]">↑ 12% this month</p>
+                                </div>
+                                <div class="rounded-xl border border-[#e8f0f1] p-4">
+                                    <p class="text-[10px] font-bold uppercase tracking-wider text-[#829ab1]">On track
+                                    </p>
+                                    <p class="font-display mt-2 text-3xl font-semibold">87%</p>
+                                    <p class="mt-1 text-[10px] font-semibold text-[#2eaa84]">↑ 8% this month</p>
+                                </div>
+                                <div class="rounded-xl border border-[#e8f0f1] p-4">
+                                    <p class="text-[10px] font-bold uppercase tracking-wider text-[#829ab1]">Billable
+                                        hours</p>
+                                    <p class="font-display mt-2 text-3xl font-semibold">1,248</p>
+                                    <p class="mt-1 text-[10px] font-semibold text-[#e6a63d]">92% capacity</p>
+                                </div>
+                            </div>
+                            <div class="mt-5 grid gap-5 lg:grid-cols-[1.35fr_1fr]">
+                                <div class="rounded-xl border border-[#e8f0f1] p-4">
+                                    <div class="flex justify-between text-xs font-bold"><span>Project health</span><span
+                                            class="text-[#829ab1]">This quarter</span></div>
+                                    <div class="mt-6 flex h-24 items-end gap-2 sm:gap-4"><span
+                                            class="h-[42%] flex-1 rounded-t bg-[#dbe7ff]"></span><span
+                                            class="h-[58%] flex-1 rounded-t bg-[#b7ccff]"></span><span
+                                            class="h-[52%] flex-1 rounded-t bg-[#92b1ff]"></span><span
+                                            class="h-[75%] flex-1 rounded-t bg-[#7196ff]"></span><span
+                                            class="h-[66%] flex-1 rounded-t bg-[#3f7cff]"></span><span
+                                            class="h-[88%] flex-1 rounded-t bg-[#2d61e3]"></span><span
+                                            class="h-full flex-1 rounded-t bg-[#102a43]"></span></div>
+                                </div>
+                                <div class="rounded-xl border border-[#e8f0f1] p-4">
+                                    <div class="flex justify-between text-xs font-bold"><span>Needs
+                                            attention</span><span class="text-[#3f7cff]">View all</span></div>
+                                    <div class="mt-4 space-y-3 text-[11px]">
+                                        <div class="flex items-center gap-2"><span
+                                                class="size-2 rounded-full bg-[#ff9d72]"></span><span
+                                                class="flex-1 text-[#486581]">Northstar rebrand</span><b
+                                                class="font-semibold text-[#829ab1]">2 days</b></div>
+                                        <div class="flex items-center gap-2"><span
+                                                class="size-2 rounded-full bg-[#ffd15c]"></span><span
+                                                class="flex-1 text-[#486581]">Meridian launch</span><b
+                                                class="font-semibold text-[#829ab1]">4 days</b></div>
+                                        <div class="flex items-center gap-2"><span
+                                                class="size-2 rounded-full bg-[#69d6b0]"></span><span
+                                                class="flex-1 text-[#486581]">Oak & Co. website</span><b
+                                                class="font-semibold text-[#829ab1]">On track</b></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <h3 class="font-heading text-2xl font-bold text-white group-hover:text-amber-300 transition-colors">Sustainable Botanical Spirits Packaging & Embossed Glass Dielines</h3>
-                    <p class="text-sm text-neutral-400 mt-2">Single-origin Scandinavian gin bottles, gold foil hot stamping, custom wooden closures, and export carton engineering.</p>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- Interactive AI Cost & Proposal Estimator Widget -->
-    <section id="ai-estimator" class="max-w-5xl mx-auto px-6 md:px-12 py-20" x-data="{
-        serviceType: 'branding',
-        scope: 'full',
-        timeline: 6,
-        calculateEstimate() {
-            let base = this.serviceType === 'branding' ? 25000 : (this.serviceType === 'packaging' ? 18000 : 35000);
-            let multiplier = this.scope === 'full' ? 1.4 : 1.0;
-            return Math.round(base * multiplier);
-        }
-    }">
-        <div class="glass-panel p-8 md:p-12 rounded-3xl border border-amber-500/20 relative overflow-hidden">
-            <div class="absolute -top-24 -right-24 w-72 h-72 bg-amber-500/10 rounded-full blur-3xl pointer-events-none"></div>
-
-            <div class="text-center max-w-2xl mx-auto mb-10">
-                <span class="text-xs uppercase tracking-widest text-amber-400 font-mono">AI Intelligence Engine</span>
-                <h2 class="font-heading text-3xl md:text-4xl font-extrabold text-white mt-2">Instant Creative Scope & Budget Estimator</h2>
-                <p class="text-neutral-400 text-sm mt-3">Calculated via AgencyFlow historical deliverable and labor telemetry.</p>
+        <section class="overflow-hidden border-b border-[#e2eeee] bg-white py-9">
+            <p class="text-center text-xs font-bold uppercase tracking-[.2em] text-[#9ab0bd]">Trusted by teams who do
+                their best work together</p>
+            <div class="marquee mt-7 flex w-max gap-16 text-lg font-display font-semibold text-[#a0b2bd] sm:gap-24">
+                <span>northstar<span class="text-[#c5d1d5]">/studio</span></span><span>MERIDIAN</span><span>oak &
+                    co.</span><span class="italic">LUMEN</span><span>fieldwork</span><span>northstar<span
+                        class="text-[#c5d1d5]">/studio</span></span><span>MERIDIAN</span><span>oak & co.</span><span
+                    class="italic">LUMEN</span><span>fieldwork</span>
             </div>
+        </section>
 
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-                <div>
-                    <label class="block text-xs font-mono text-neutral-400 uppercase mb-2">Service Discipline</label>
-                    <select x-model="serviceType" class="w-full bg-neutral-900 border border-white/10 rounded-xl p-3 text-sm text-white focus:outline-none focus:border-amber-500">
-                        <option value="branding">Brand Identity & Strategy (CREATE)</option>
-                        <option value="packaging">Luxury Packaging & Dielines (CREATE)</option>
-                        <option value="campaign">Launch Campaign & 3D CGI (COMMUNICATE)</option>
-                    </select>
-                </div>
-
-                <div>
-                    <label class="block text-xs font-mono text-neutral-400 uppercase mb-2">Engagement Scope</label>
-                    <select x-model="scope" class="w-full bg-neutral-900 border border-white/10 rounded-xl p-3 text-sm text-white focus:outline-none focus:border-amber-500">
-                        <option value="core">Core Identity & Guidelines</option>
-                        <option value="full">Enterprise Full-Spectrum Rollout</option>
-                    </select>
-                </div>
-
-                <div>
-                    <label class="block text-xs font-mono text-neutral-400 uppercase mb-2">Delivery Cadence</label>
-                    <select x-model="timeline" class="w-full bg-neutral-900 border border-white/10 rounded-xl p-3 text-sm text-white focus:outline-none focus:border-amber-500">
-                        <option value="4">Accelerated Sprint (4 Weeks)</option>
-                        <option value="6">Standard Delivery (6-8 Weeks)</option>
-                        <option value="12">Global Enterprise (12 Weeks)</option>
-                    </select>
-                </div>
+        <section id="solutions" class="mx-auto max-w-7xl px-6 py-24 lg:px-10 lg:py-32">
+            <div class="max-w-2xl">
+                <p class="text-sm font-bold uppercase tracking-[.18em] text-[#3f7cff]">One workspace. More momentum.</p>
+                <h2 class="font-display mt-4 text-4xl font-semibold leading-tight tracking-[-.05em] sm:text-6xl">
+                    Everything your agency needs to deliver <span class="text-[#8b6cff]">beautifully.</span></h2>
             </div>
+            <div class="mt-14 grid gap-5 md:grid-cols-3">
+                <article class="soft-shadow rounded-2xl border border-[#e2eeee] bg-white p-7">
+                    <div class="grid size-11 place-items-center rounded-xl bg-[#eaf0ff] text-xl text-[#3f7cff]">◒</div>
+                    <h3 class="font-display mt-8 text-2xl font-semibold">Projects that flow</h3>
+                    <p class="mt-3 leading-7 text-[#627d98]">Plan, assign, and track every moving part with a view that
+                        keeps the whole team one step ahead.</p><a href="#demo"
+                        class="mt-7 inline-block text-sm font-bold text-[#3f7cff]">Explore project delivery <span
+                            aria-hidden="true">→</span></a>
+                </article>
+                <article class="soft-shadow rounded-2xl border border-[#e2eeee] bg-white p-7">
+                    <div class="grid size-11 place-items-center rounded-xl bg-[#fff4d8] text-xl text-[#de9b20]">◷</div>
+                    <h3 class="font-display mt-8 text-2xl font-semibold">Clients in the loop</h3>
+                    <p class="mt-3 leading-7 text-[#627d98]">Give clients a calm, branded space to review work, share
+                        feedback, and feel part of the progress.</p><a href="#demo"
+                        class="mt-7 inline-block text-sm font-bold text-[#3f7cff]">See the client portal <span
+                            aria-hidden="true">→</span></a>
+                </article>
+                <article class="soft-shadow rounded-2xl border border-[#e2eeee] bg-white p-7">
+                    <div class="grid size-11 place-items-center rounded-xl bg-[#e5faf2] text-xl text-[#28a77f]">↗</div>
+                    <h3 class="font-display mt-8 text-2xl font-semibold">A healthier business</h3>
+                    <p class="mt-3 leading-7 text-[#627d98]">Know what is profitable, what needs attention, and where to
+                        focus next — before the numbers tell you.</p><a href="#demo"
+                        class="mt-7 inline-block text-sm font-bold text-[#3f7cff]">Discover business intelligence <span
+                            aria-hidden="true">→</span></a>
+                </article>
+            </div>
+        </section>
 
-            <div class="bg-black/60 rounded-2xl p-6 flex flex-col md:flex-row items-center justify-between border border-white/5">
+        <section id="stories" class="bg-[#102a43] px-6 py-24 text-white lg:px-10 lg:py-28">
+            <div class="mx-auto grid max-w-7xl gap-14 lg:grid-cols-[1fr_1.1fr] lg:items-center">
                 <div>
-                    <span class="text-xs text-neutral-400 font-mono uppercase">AI Estimated Investment</span>
-                    <div class="font-heading text-3xl md:text-5xl font-black text-amber-400 mt-1">
-                        $<span x-text="calculateEstimate().toLocaleString()"></span>
+                    <p class="text-sm font-bold uppercase tracking-[.18em] text-[#8ce0c4]">Less chasing. More creating.
+                    </p>
+                    <blockquote
+                        class="font-display mt-5 max-w-xl text-4xl font-medium leading-[1.12] tracking-[-.04em] sm:text-5xl">
+                        “AgencyFlow gave us back the headspace to do the work our clients actually hire us for.”
+                    </blockquote>
+                    <div class="mt-8 flex items-center gap-3">
+                        <div
+                            class="grid size-10 place-items-center rounded-full bg-[#f0b87c] text-sm font-bold text-[#102a43]">
+                            MC</div>
+                        <div>
+                            <p class="text-sm font-bold">Maya Chen</p>
+                            <p class="text-xs text-[#9fb6c7]">Managing Partner, Northstar / Studio</p>
+                        </div>
                     </div>
-                    <span class="text-xs text-neutral-500">Includes labor rate, revision caps, and IP assignment</span>
                 </div>
-
-                <div class="mt-4 md:mt-0 flex gap-4">
-                    <a href="/portal" class="px-6 py-3 rounded-xl bg-amber-500 hover:bg-amber-400 text-black font-semibold text-xs tracking-wider uppercase transition-all">
-                        Request Formal SOW &rarr;
-                    </a>
+                <div class="rounded-3xl bg-[#1b405e] p-7 sm:p-10">
+                    <div class="flex items-center justify-between"><span class="text-sm font-bold text-[#c9d9e4]">Your
+                            agency, at a glance</span><span
+                            class="rounded-full bg-[#2c5a76] px-3 py-1 text-[10px] font-bold text-[#9ce2cd]">LIVE
+                            DATA</span></div>
+                    <div class="mt-8 grid grid-cols-2 gap-3">
+                        <div class="rounded-2xl bg-white/10 p-5">
+                            <p class="text-xs text-[#9fb6c7]">Revenue forecast</p>
+                            <p class="font-display mt-3 text-3xl font-semibold">$184k</p>
+                            <p class="mt-2 text-xs text-[#8ce0c4]">↑ 14.6%</p>
+                        </div>
+                        <div class="rounded-2xl bg-white/10 p-5">
+                            <p class="text-xs text-[#9fb6c7]">Team utilization</p>
+                            <p class="font-display mt-3 text-3xl font-semibold">82%</p>
+                            <p class="mt-2 text-xs text-[#8ce0c4]">Healthy range</p>
+                        </div>
+                    </div>
+                    <div class="mt-3 rounded-2xl bg-white/10 p-5">
+                        <div class="flex justify-between text-xs"><span class="text-[#c9d9e4]">Delivery
+                                confidence</span><span class="font-bold text-[#8ce0c4]">Excellent</span></div>
+                        <div class="mt-4 h-2 rounded-full bg-[#315a75]">
+                            <div class="h-2 w-[86%] rounded-full bg-[#8ce0c4]"></div>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- Footer -->
-    <footer class="border-t border-white/5 py-12 px-6 md:px-12 text-sm text-neutral-500">
-        <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
-            <div class="flex items-center gap-3">
-                <span class="w-2.5 h-2.5 rounded-full bg-amber-500"></span>
-                <span class="font-heading font-bold text-white text-base">AgencyFlow AI ERP</span>
-                <span>&bull; &copy; {{ date('Y') }} All Rights Reserved.</span>
+        <section id="pricing" class="bg-[#eaf8f3] px-6 py-24 lg:px-10 lg:py-28">
+            <div id="demo"
+                class="mx-auto flex max-w-5xl flex-col items-start justify-between gap-8 rounded-3xl bg-[#c9f7e6] p-8 sm:p-12 lg:flex-row lg:items-center">
+                <div>
+                    <p class="text-sm font-bold uppercase tracking-[.18em] text-[#287b70]">Ready when you are</p>
+                    <h2
+                        class="font-display mt-3 max-w-2xl text-4xl font-semibold leading-tight tracking-[-.05em] text-[#102a43] sm:text-5xl">
+                        Give your best work a better system.</h2>
+                    <p class="mt-4 max-w-lg leading-7 text-[#486581]">See how AgencyFlow can fit the way your team
+                        already works. We’ll bring the coffee and a real walkthrough.</p>
+                </div><a href="mailto:hello@agencyflow.test"
+                    class="shrink-0 rounded-full bg-[#102a43] px-7 py-3.5 text-sm font-bold text-white transition hover:-translate-y-0.5 hover:bg-[#1c405e]">Book
+                    a personal demo <span aria-hidden="true">↗</span></a>
             </div>
+        </section>
+    </main>
 
-            <div class="flex items-center gap-6">
-                <a href="/portal" class="hover:text-amber-400 transition-colors">Client Portal</a>
-                <a href="/admin" class="hover:text-amber-400 transition-colors">ERP Admin Panel</a>
-                <a href="/admin/login" class="hover:text-amber-400 transition-colors">Employee Gateway</a>
-            </div>
+    <footer class="bg-[#f8fbfd] px-6 py-10 lg:px-10">
+        <div class="mx-auto flex max-w-7xl flex-col items-start justify-between gap-7 sm:flex-row sm:items-center"><a
+                href="/" class="flex items-center gap-2.5"><span
+                    class="grid size-7 place-items-center rounded-lg bg-[#102a43] text-xs font-bold text-white">A</span><span
+                    class="font-display font-bold tracking-[-.04em]">agencyflow</span></a>
+            <div class="flex flex-wrap gap-6 text-sm text-[#829ab1]"><a href="#platform"
+                    class="hover:text-[#102a43]">Platform</a><a href="#solutions"
+                    class="hover:text-[#102a43]">Solutions</a><a href="/portal" class="hover:text-[#102a43]">Client
+                    portal</a><a href="/admin" class="hover:text-[#102a43]">Admin login</a></div>
+            <p class="text-xs text-[#9ab0bd]">© {{ date('Y') }} AgencyFlow</p>
         </div>
     </footer>
-
 </body>
+
 </html>
